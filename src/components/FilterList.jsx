@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import pureRender from 'pure-render-decorator';
-import { RadioButtonGroup, RadioButton } from 'material-ui';
 
 const styles = {
   container: {
@@ -11,62 +9,40 @@ const styles = {
   },
 };
 
-@pureRender
+/**
+ * Displays 3 radio buttons allowing the user to filter the smileys list.
+ */
 export default class FilterList extends Component {
   static get propTypes() {
     return {
+      /**
+       * The active filter. Eg. id, price, size
+       * @type {string}
+       */
       activeFilter: PropTypes.string,
+
+      /**
+       * Whether the filter should be disabled or not
+       * @type {boolean}
+       */
       disabled: PropTypes.bool,
 
+      /**
+       * Callback that should be call to filter the smileys list.
+       * @type {(filter: string): void}
+       */
       filterBy: PropTypes.func,
     };
   }
 
-  constructor(props) {
-    super(props);
-
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onChange(e, value) {
-    const { filterBy } = this.props;
-
-    filterBy(value);
-  }
-
   render() {
-    const { activeFilter, disabled } = this.props;
+    const { activeFilter, disabled, filterBy } = this.props;
+
+    console.log(activeFilter, disabled, filterBy);
 
     return (
       <div className="layout vertical center-center" style={styles.container}>
         <p>Filter:</p>
-        <RadioButtonGroup
-          className="layout horizontal around-justified"
-          name="filter"
-          defaultSelected="id"
-          valueSelected={activeFilter}
-          style={styles.container}
-          onChange={this.onChange}
-        >
-          <RadioButton
-            disabled={disabled}
-            value="id"
-            label="Id"
-            style={styles.radioButton}
-          />
-          <RadioButton
-            disabled={disabled}
-            value="price"
-            label="Price"
-            style={styles.radioButton}
-          />
-          <RadioButton
-            disabled={disabled}
-            value="size"
-            label="Size"
-            style={styles.radioButton}
-          />
-        </RadioButtonGroup>
       </div>
     );
   }
